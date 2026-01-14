@@ -131,6 +131,18 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModals: document.querySelectorAll('.close-modal')
     };
 
+    const authFormContainer = document.querySelector('.auth-forms');
+    const authEmailInput = document.getElementById('authEmail');
+    const authPassInput = document.getElementById('authPass');
+    const loginBtn = authFormContainer.querySelector('.btn-primary');
+    const commentFormContainer = document.getElementById('commentFormContainer');
+    const loginReminder = document.getElementById('loginReminder');
+    const toggleAuth = document.getElementById('toggleAuth');
+    const authTitle = document.getElementById('authTitle');
+
+    let isLoggedIn = false;
+    let currentUser = null;
+
     const containerProcedures = document.getElementById('proceduresList');
     const serviceCards = document.querySelectorAll('.service-card');
     const commentForm = document.getElementById('commentForm');
@@ -152,13 +164,59 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal('tramites');
     });
 
-    buttons.btnAuth.addEventListener('click', () => openModal('auth'));
+    buttons.btnAuth.addEventListener('click', () => {
+        if (isLoggedIn) {
+            logout();
+        } else {
+            openModal('auth');
+        }
+    });
+
     buttons.btnVisitor.addEventListener('click', closeModal);
 
     buttons.closeModals.forEach(btn => btn.addEventListener('click', closeModal));
 
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) closeModal();
+    });
+
+    // --- Authentication Actions ---
+    function login(email) {
+        isLoggedIn = true;
+        currentUser = email.split('@')[0];
+        buttons.btnAuth.innerText = `Hola, ${currentUser} (Salir)`;
+        commentFormContainer.style.display = 'block';
+        loginReminder.style.display = 'none';
+        closeModal();
+    }
+
+    function logout() {
+        isLoggedIn = false;
+        currentUser = null;
+        buttons.btnAuth.innerText = 'Ingresar / Registrarse';
+        commentFormContainer.style.display = 'none';
+        loginReminder.style.display = 'block';
+    }
+
+    loginBtn.addEventListener('click', () => {
+        const email = authEmailInput.value;
+        const pass = authPassInput.value;
+        if (email && pass) {
+            login(email);
+        } else {
+            alert('Por favor, completa tus datos.');
+        }
+    });
+
+    toggleAuth.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (authTitle.innerText === 'Ingresar') {
+            authTitle.innerText = 'Registrarse';
+            toggleAuth.innerText = '¿Ya tienes cuenta? Ingresa aquí';
+        } else {
+            authTitle.innerText = 'Ingresar';
+            toggleAuth.innerText = '¿No tienes cuenta? Regístrate aquí';
+        }
     });
 
     // --- Procedures Injection ---

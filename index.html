@@ -175,7 +175,38 @@
                 <p><i class="fas fa-lock"></i> <strong>Seguridad y legalidad:</strong> Trabajamos con total
                     confidencialidad y conforme a la normativa vigente.</p>
             </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-container"
+                style="max-width: 600px; margin: 40px auto 0; background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; text-align: left;">
+                <h3 style="color: white; margin-bottom: 20px; text-align: center;">Envíanos tu consulta</h3>
+                <form action="https://formsubmit.co/elvis196032@gmail.com" method="POST" id="contactForm">
+                    <div class="form-group">
+                        <label style="color: white;">Nombre:</label>
+                        <input type="text" name="name" required
+                            style="background: rgba(255,255,255,0.9); border: none;">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: white;">Email:</label>
+                        <input type="email" name="email" required
+                            style="background: rgba(255,255,255,0.9); border: none;">
+                    </div>
+                    <div class="form-group">
+                        <label style="color: white;">Mensaje:</label>
+                        <textarea name="message" rows="4" required
+                            style="background: rgba(255,255,255,0.9); border: none;"></textarea>
+                    </div>
+                    <!-- Configuration for FormSubmit -->
+                    <input type="hidden" name="_subject" value="Nueva consulta de Gestoría Clara">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://anhis90.github.io/Gestoria-Clara/">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; height: 50px;">Enviar
+                        Consulta</button>
+                </form>
+            </div>
         </div>
+    </section>
+    </div>
     </section>
 
     <!-- Comments / Testimonials Section -->
@@ -185,8 +216,8 @@
             <p>Lo que dicen quienes ya confiaron en nosotros</p>
         </div>
 
-        <!-- Form for adding comments -->
-        <div class="comment-form">
+        <!-- Form for adding comments (Hidden if not logged in) -->
+        <div class="comment-form" id="commentFormContainer" style="display: none;">
             <h3>Deja tu opinión</h3>
             <form id="commentForm">
                 <div class="form-group">
@@ -203,6 +234,15 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Publicar Comentario</button>
             </form>
+        </div>
+
+        <div id="loginReminder"
+            style="text-align: center; padding: 40px; background: white; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 50px;">
+            <i class="fas fa-lock" style="font-size: 3rem; color: var(--secondary); margin-bottom: 20px;"></i>
+            <h3>Ingresa para dejar un comentario</h3>
+            <p>Solo los usuarios registrados pueden publicar su experiencia.</p>
+            <button class="btn btn-primary" onclick="document.getElementById('btnAuth').click()"
+                style="margin-top: 20px;">Iniciar Sesión</button>
         </div>
 
         <div class="comment-list" id="commentList">
