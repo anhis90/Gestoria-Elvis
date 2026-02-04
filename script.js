@@ -115,6 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     "Aprobación de PNA (Prefectura Naval Argentina)."
                 ]
             }
+        ],
+        varios: [
+            {
+                name: "Trámites Varios (ANSES, ARCA, ARBA y otros)",
+                requirements: [
+                    "Consultanos detalladamente sobre tu trámite.",
+                    "La documentación depende del organismo y tipo de gestión."
+                ]
+            }
         ]
     };
 
