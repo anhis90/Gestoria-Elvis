@@ -128,34 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- DOM Elements ---
-    const modals = {
-        tramites: document.getElementById('modalTramites'),
-        auth: document.getElementById('modalAuth')
-    };
+    const modals = { tramites: document.getElementById('modalTramites') };
 
     const buttons = {
         openTramites: document.getElementById('openTramites'),
-        btnAuth: document.getElementById('btnAuth'),
-        btnVisitor: document.getElementById('btnVisitor'),
         closeModals: document.querySelectorAll('.close-modal')
     };
 
-    const authFormContainer = document.querySelector('.auth-forms');
-    const authEmailInput = document.getElementById('authEmail');
-    const authPassInput = document.getElementById('authPass');
-    const loginBtn = authFormContainer.querySelector('.btn-primary');
-    const commentFormContainer = document.getElementById('commentFormContainer');
-    const loginReminder = document.getElementById('loginReminder');
-    const toggleAuth = document.getElementById('toggleAuth');
-    const authTitle = document.getElementById('authTitle');
-
-    let isLoggedIn = false;
-    let currentUser = null;
-
     const containerProcedures = document.getElementById('proceduresList');
     const serviceCards = document.querySelectorAll('.service-card');
-    const commentForm = document.getElementById('commentForm');
-    const commentList = document.getElementById('commentList');
 
     // --- Modal Logic ---
     function openModal(modalId) {
@@ -173,59 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal('tramites');
     });
 
-    buttons.btnAuth.addEventListener('click', () => {
-        if (isLoggedIn) {
-            logout();
-        } else {
-            openModal('auth');
-        }
-    });
-
-    buttons.btnVisitor.addEventListener('click', closeModal);
-
     buttons.closeModals.forEach(btn => btn.addEventListener('click', closeModal));
 
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) closeModal();
-    });
-
-    // --- Authentication Actions ---
-    function login(email) {
-        isLoggedIn = true;
-        currentUser = email.split('@')[0];
-        buttons.btnAuth.innerText = `Hola, ${currentUser} (Salir)`;
-        commentFormContainer.style.display = 'block';
-        loginReminder.style.display = 'none';
-        closeModal();
-    }
-
-    function logout() {
-        isLoggedIn = false;
-        currentUser = null;
-        buttons.btnAuth.innerText = 'Ingresar / Registrarse';
-        commentFormContainer.style.display = 'none';
-        loginReminder.style.display = 'block';
-    }
-
-    loginBtn.addEventListener('click', () => {
-        const email = authEmailInput.value;
-        const pass = authPassInput.value;
-        if (email && pass) {
-            login(email);
-        } else {
-            alert('Por favor, completa tus datos.');
-        }
-    });
-
-    toggleAuth.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (authTitle.innerText === 'Ingresar') {
-            authTitle.innerText = 'Registrarse';
-            toggleAuth.innerText = '¿Ya tienes cuenta? Ingresa aquí';
-        } else {
-            authTitle.innerText = 'Ingresar';
-            toggleAuth.innerText = '¿No tienes cuenta? Regístrate aquí';
-        }
     });
 
     // --- Procedures Injection ---
@@ -279,67 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Comments Logic ---
-    function loadComments() {
-        const savedComments = JSON.parse(localStorage.getItem('gestoria_comments') || '[]');
-        commentList.innerHTML = '';
-        savedComments.forEach(c => renderComment(c));
-    }
-
-    function renderComment(comment) {
-        const div = document.createElement('div');
-        div.className = 'comment-card';
-        div.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <strong style="color: var(--primary);">${comment.name}</strong>
-                <span style="font-size: 0.8rem; opacity: 0.6;">${comment.date}</span>
-            </div>
-            <p style="font-style: italic;">"${comment.comment}"</p>
-            ${comment.image ? `<img src="${comment.image}" alt="Trámite realizado">` : ''}
-        `;
-        commentList.prepend(div);
-    }
-
-    commentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('userName').value;
-        const text = document.getElementById('userComment').value;
-        const photoInput = document.getElementById('userPhoto');
-
-        let imageData = null;
-
-        const save = () => {
-            const newComment = {
-                name,
-                comment: text,
-                image: imageData,
-                date: new Date().toLocaleDateString()
-            };
-
-            const savedComments = JSON.parse(localStorage.getItem('gestoria_comments') || '[]');
-            savedComments.push(newComment);
-            localStorage.setItem('gestoria_comments', JSON.stringify(savedComments));
-
-            renderComment(newComment);
-            commentForm.reset();
-            alert('¡Gracias por tu comentario!');
-        };
-
-        if (photoInput.files && photoInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                imageData = event.target.result;
-                save();
-            };
-            reader.readAsDataURL(photoInput.files[0]);
-        } else {
-            save();
-        }
-    });
-
-    // --- Initial Load ---
-    loadComments();
-
     // --- FAQ Accordion ---
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
@@ -382,3 +253,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
