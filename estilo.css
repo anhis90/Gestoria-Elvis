@@ -95,7 +95,11 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(rgba(12, 45, 87, 0.7), rgba(12, 45, 87, 0.7)), url('hero_bg_1768352782511.png');
+    /* Gradiente propio: evita depender de una imagen que no estaba incluida. */
+    background:
+        radial-gradient(circle at 20% 15%, rgba(209, 100, 60, 0.42), transparent 38%),
+        radial-gradient(circle at 80% 85%, rgba(252, 212, 175, 0.2), transparent 42%),
+        linear-gradient(135deg, #0c2d57 0%, #123e72 55%, #0c2d57 100%);
     background-size: cover;
     background-position: center;
     color: var(--white);
@@ -584,3 +588,4 @@ body {
         justify-content: center;
     }
 }
+
